@@ -7,10 +7,10 @@
     <artifactId>wds</artifactId>
     <version>1.0.0</version>
     <modules>
-        <module>wds-core</module>
+        <!--<module>wds-core</module>-->
         <module>wds-dal</module>
         <module>wds-orm</module>
-        <module>wds-mvc</module>
+        <!--<module>wds-mvc</module>-->
     </modules>
 
     <packaging>pom</packaging>
@@ -33,7 +33,7 @@
         <dependency>
             <groupId>ch.qos.logback</groupId>
             <artifactId>logback-classic</artifactId>
-            <version>${logback.version}</version>
+            <version>1.0.9</version>
         </dependency>
         <dependency>
             <groupId>org.slf4j</groupId>
@@ -57,17 +57,12 @@
             </dependency>
             <dependency>
                 <groupId>com.jd.finance.innovation</groupId>
-                <artifactId>wds-dal</artifactId>
+                <artifactId>wds-mvc</artifactId>
                 <version>{wds.version}</version>
             </dependency>
             <dependency>
                 <groupId>com.jd.finance.innovation</groupId>
                 <artifactId>wds-orm</artifactId>
-                <version>{wds.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.jd.finance.innovation</groupId>
-                <artifactId>wds-mvc</artifactId>
                 <version>{wds.version}</version>
             </dependency>
             <!-- 这个包的作用是在非web项目中使用web项目的servlet组件 -->
@@ -76,6 +71,14 @@
                 <artifactId>geronimo-servlet_3.0_spec</artifactId>
                 <scope>compile</scope>
                 <version>1.0</version>
+            </dependency>
+
+            <!--Unified Junit-->
+            <dependency>
+                <groupId>junit</groupId>
+                <artifactId>junit</artifactId>
+                <version>4.8.2</version>
+                <scope>test</scope>
             </dependency>
 
             <dependency>
@@ -192,28 +195,65 @@
                 <filtering>true</filtering>
             </resource>
         </resources>
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-source-plugin</artifactId>
+                    <version>2.4</version>
+                    <executions>
+                        <execution>
+                            <id>attach-sources</id>
+                            <phase>verify</phase>
+                            <goals>
+                                <goal>jar-no-fork</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-javadoc-plugin</artifactId>
+                    <version>2.10.3</version>
+                    <executions>
+                        <execution>
+                            <phase>verify</phase>
+                            <goals>
+                                <goal>jar</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+                </plugin>
+            </plugins>
+        </pluginManagement>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>2.3.2</version>
                 <configuration>
-                    <source>1.7</source>
-                    <target>1.7</target>
+                    <source>1.6</source>
+                    <target>1.6</target>
                     <encoding>UTF-8</encoding>
-                </configuration>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-surefire-plugin</artifactId>
-                <version>2.17</version>
-                <configuration>
-                    <forkMode>once</forkMode>
-                    <argLine>-Dfile.encoding=UTF-8</argLine>
                 </configuration>
             </plugin>
         </plugins>
     </build>
+
+
+    <distributionManagement>
+        <repository>
+            <id>libs-central</id>
+            <name>Nexus Release libs-releases</name>
+            <url>http://artifactory.360buy-develop.com/libs-releases-local</url>
+        </repository>
+        <snapshotRepository>
+            <id>libs-snapshots</id>
+            <name>Nexus Snapshots libs-snapshots</name>
+            <url>http://artifactory.360buy-develop.com/libs-snapshots-local</url>
+            <uniqueVersion>true</uniqueVersion>
+        </snapshotRepository>
+    </distributionManagement>
 
 
 </project>
